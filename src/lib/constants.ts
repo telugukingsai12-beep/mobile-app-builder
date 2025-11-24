@@ -19,6 +19,7 @@ export const ROUTES = {
   
   // Common routes
   PROFILE: '/profile',
+  EDIT_PROFILE: '/profile/edit',
   SETTINGS: '/settings',
   MESSAGES: '/messages',
   EVENTS: '/events',

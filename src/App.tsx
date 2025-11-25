@@ -15,6 +15,14 @@ import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import Profile from "./pages/profile/Profile";
 import EditProfile from "./pages/profile/EditProfile";
 import Settings from "./pages/profile/Settings";
+import EventsList from "./pages/events/EventsList";
+import EventDetails from "./pages/events/EventDetails";
+import CreateEvent from "./pages/events/CreateEvent";
+import OpportunitiesList from "./pages/opportunities/OpportunitiesList";
+import OpportunityDetails from "./pages/opportunities/OpportunityDetails";
+import MyBookings from "./pages/volunteer/MyBookings";
+import MessagesList from "./pages/messages/MessagesList";
+import ChatScreen from "./pages/messages/ChatScreen";
 import { ROUTES } from "./lib/constants";
 
 const queryClient = new QueryClient();
@@ -41,6 +49,22 @@ const App = () => (
           <Route path={ROUTES.PROFILE} element={<Profile />} />
           <Route path={ROUTES.EDIT_PROFILE} element={<EditProfile />} />
           <Route path={ROUTES.SETTINGS} element={<Settings />} />
+          
+          {/* Event Routes */}
+          <Route path={ROUTES.EVENTS} element={<EventsList />} />
+          <Route path={ROUTES.EVENT_DETAILS} element={<EventDetails />} />
+          <Route path={ROUTES.CREATE_EVENT} element={<CreateEvent />} />
+          
+          {/* Opportunity Routes */}
+          <Route path={ROUTES.OPPORTUNITIES} element={<OpportunitiesList />} />
+          <Route path={ROUTES.OPPORTUNITY_DETAILS} element={<OpportunityDetails />} />
+          
+          {/* Volunteer Routes */}
+          <Route path={ROUTES.VOLUNTEER_BOOKINGS} element={<MyBookings />} />
+          
+          {/* Message Routes */}
+          <Route path={ROUTES.MESSAGES} element={<MessagesList />} />
+          <Route path={ROUTES.MESSAGES_CHAT} element={<ChatScreen />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

@@ -22,8 +22,13 @@ export const ROUTES = {
   EDIT_PROFILE: '/profile/edit',
   SETTINGS: '/settings',
   MESSAGES: '/messages',
+  MESSAGES_CHAT: '/messages/:conversationId',
   EVENTS: '/events',
+  EVENT_DETAILS: '/events/:id',
+  CREATE_EVENT: '/events/create',
   OPPORTUNITIES: '/opportunities',
+  OPPORTUNITY_DETAILS: '/opportunities/:id',
+  VOLUNTEER_BOOKINGS: '/volunteer/bookings',
   DONATE: '/donate',
 } as const;
 

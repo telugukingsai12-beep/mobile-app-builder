@@ -10,12 +10,17 @@ export const ROUTES = {
   
   // Volunteer routes
   VOLUNTEER_DASHBOARD: '/volunteer/dashboard',
+  VOLUNTEER_BOOKINGS: '/volunteer/bookings',
   
   // Donor routes
   DONOR_DASHBOARD: '/donor/dashboard',
+  DONOR_HISTORY: '/donor/history',
   
   // Admin routes
   ADMIN_DASHBOARD: '/admin/dashboard',
+  ADMIN_USERS: '/admin/users',
+  ADMIN_MODERATION: '/admin/moderation',
+  ADMIN_ANALYTICS: '/admin/analytics',
   
   // Common routes
   PROFILE: '/profile',
@@ -28,8 +33,13 @@ export const ROUTES = {
   CREATE_EVENT: '/events/create',
   OPPORTUNITIES: '/opportunities',
   OPPORTUNITY_DETAILS: '/opportunities/:id',
-  VOLUNTEER_BOOKINGS: '/volunteer/bookings',
   DONATE: '/donate',
+  DONATE_CHECKOUT: '/donate/:ngoId',
+  DONATE_SUCCESS: '/donate/success',
+  SEARCH: '/search',
+  NOTIFICATIONS: '/notifications',
+  HELP: '/help',
+  OFFLINE: '/offline',
 } as const;
 
 // User roles

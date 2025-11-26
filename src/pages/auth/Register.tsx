@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Checkbox } from '@/components/ui/checkbox';
+import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
 import { ROUTES, UserRole, USER_ROLES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
@@ -15,6 +17,10 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { signUp } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -25,13 +31,55 @@ const Register = () => {
     regNumber: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step === 1) {
+      if (formData.password !== formData.confirmPassword) {
+        toast({
+          variant: 'destructive',
+          title: 'Password Mismatch',
+          description: 'Passwords do not match. Please try again.',
+        });
+        return;
+      }
       setStep(2);
     } else {
-      // TODO: Implement registration logic
-      console.log('Register:', { ...formData, role: selectedRole });
+      setLoading(true);
+      
+      try {
+        const additionalData: any = {
+          fullName: formData.name,
+        };
+
+        if (selectedRole === USER_ROLES.NGO) {
+          additionalData.orgName = formData.orgName;
+          additionalData.regNumber = formData.regNumber;
+        }
+
+        const { error } = await signUp(formData.email, formData.password, selectedRole, additionalData);
+
+        if (error) {
+          toast({
+            variant: 'destructive',
+            title: 'Registration Failed',
+            description: error.message || 'Failed to create account. Please try again.',
+          });
+        } else {
+          toast({
+            title: 'Account Created!',
+            description: 'Please check your email to verify your account.',
+          });
+          navigate(ROUTES.LOGIN);
+        }
+      } catch (error: any) {
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'An unexpected error occurred. Please try again.',
+        });
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -243,9 +291,9 @@ const Register = () => {
             <Button
               type="submit"
               className="flex-1 touch-friendly"
-              disabled={step === 1 ? !isStep1Valid : !acceptedTerms}
+              disabled={step === 1 ? !isStep1Valid : (!acceptedTerms || loading)}
             >
-              {step === 1 ? 'Continue' : 'Create Account'}
+              {loading ? 'Creating Account...' : (step === 1 ? 'Continue' : 'Create Account')}
             </Button>
           </div>
         </form>

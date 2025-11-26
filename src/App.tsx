@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/auth/Login";
@@ -53,15 +54,15 @@ const App = () => (
           <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
           
           {/* Dashboard Routes */}
-          <Route path={ROUTES.NGO_DASHBOARD} element={<NGODashboard />} />
-          <Route path={ROUTES.VOLUNTEER_DASHBOARD} element={<VolunteerDashboard />} />
-          <Route path={ROUTES.DONOR_DASHBOARD} element={<DonorDashboard />} />
-          <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboard />} />
+          <Route path={ROUTES.NGO_DASHBOARD} element={<ProtectedRoute allowedRoles={['ngo']}><NGODashboard /></ProtectedRoute>} />
+          <Route path={ROUTES.VOLUNTEER_DASHBOARD} element={<ProtectedRoute allowedRoles={['volunteer']}><VolunteerDashboard /></ProtectedRoute>} />
+          <Route path={ROUTES.DONOR_DASHBOARD} element={<ProtectedRoute allowedRoles={['donor']}><DonorDashboard /></ProtectedRoute>} />
+          <Route path={ROUTES.ADMIN_DASHBOARD} element={<ProtectedRoute allowedRoles={['admin']}><AdminDashboard /></ProtectedRoute>} />
           
           {/* Profile Routes */}
-          <Route path={ROUTES.PROFILE} element={<Profile />} />
-          <Route path={ROUTES.EDIT_PROFILE} element={<EditProfile />} />
-          <Route path={ROUTES.SETTINGS} element={<Settings />} />
+          <Route path={ROUTES.PROFILE} element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path={ROUTES.EDIT_PROFILE} element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
+          <Route path={ROUTES.SETTINGS} element={<ProtectedRoute><Settings /></ProtectedRoute>} />
           
           {/* Event Routes */}
           <Route path={ROUTES.EVENTS} element={<EventsList />} />
@@ -73,22 +74,22 @@ const App = () => (
           <Route path={ROUTES.OPPORTUNITY_DETAILS} element={<OpportunityDetails />} />
           
           {/* Volunteer Routes */}
-          <Route path={ROUTES.VOLUNTEER_BOOKINGS} element={<MyBookings />} />
+          <Route path={ROUTES.VOLUNTEER_BOOKINGS} element={<ProtectedRoute allowedRoles={['volunteer']}><MyBookings /></ProtectedRoute>} />
           
           {/* Message Routes */}
-          <Route path={ROUTES.MESSAGES} element={<MessagesList />} />
-          <Route path={ROUTES.MESSAGES_CHAT} element={<ChatScreen />} />
+          <Route path={ROUTES.MESSAGES} element={<ProtectedRoute><MessagesList /></ProtectedRoute>} />
+          <Route path={ROUTES.MESSAGES_CHAT} element={<ProtectedRoute><ChatScreen /></ProtectedRoute>} />
           
           {/* Donation Routes */}
-          <Route path={ROUTES.DONATE} element={<DonationScreen />} />
-          <Route path={ROUTES.DONATE_CHECKOUT} element={<DonationCheckout />} />
-          <Route path={ROUTES.DONATE_SUCCESS} element={<DonationSuccess />} />
-          <Route path={ROUTES.DONOR_HISTORY} element={<DonationHistory />} />
+          <Route path={ROUTES.DONATE} element={<ProtectedRoute><DonationScreen /></ProtectedRoute>} />
+          <Route path={ROUTES.DONATE_CHECKOUT} element={<ProtectedRoute><DonationCheckout /></ProtectedRoute>} />
+          <Route path={ROUTES.DONATE_SUCCESS} element={<ProtectedRoute><DonationSuccess /></ProtectedRoute>} />
+          <Route path={ROUTES.DONOR_HISTORY} element={<ProtectedRoute allowedRoles={['donor']}><DonationHistory /></ProtectedRoute>} />
           
           {/* Admin Routes */}
-          <Route path={ROUTES.ADMIN_USERS} element={<UserManagement />} />
-          <Route path={ROUTES.ADMIN_MODERATION} element={<ContentModeration />} />
-          <Route path={ROUTES.ADMIN_ANALYTICS} element={<PlatformAnalytics />} />
+          <Route path={ROUTES.ADMIN_USERS} element={<ProtectedRoute allowedRoles={['admin']}><UserManagement /></ProtectedRoute>} />
+          <Route path={ROUTES.ADMIN_MODERATION} element={<ProtectedRoute allowedRoles={['admin']}><ContentModeration /></ProtectedRoute>} />
+          <Route path={ROUTES.ADMIN_ANALYTICS} element={<ProtectedRoute allowedRoles={['admin']}><PlatformAnalytics /></ProtectedRoute>} />
           
           {/* Utility Routes */}
           <Route path={ROUTES.SEARCH} element={<SearchResults />} />
